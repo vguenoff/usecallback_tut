@@ -6,11 +6,13 @@ const App = () => {
     const [num1] = useState(4)
     const [num2] = useState(5)
 
-    //const sum = useCallback(() => num1 + num2, [num1, num2]);
+    // without useCallback it will rerender endlessly and crush
+    // because even the arrays are the same they don't have referential equality
     const buildArray = useCallback(() => [num1, num2], [num1, num2])
 
     useEffect(() => {
         console.log(`New array: ${buildArray()}`)
+
         setResult(buildArray())
     }, [buildArray])
 
